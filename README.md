@@ -1,5 +1,5 @@
 # <center>Computer Vision In The Age Of DeepLearning</center>
-## <center>HW1</center>
+## <div align="center">HW1</div>
 ### Requirements
   1. opencv-python<br />
   2. pandas<br />
