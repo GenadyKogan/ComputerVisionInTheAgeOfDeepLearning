@@ -1,7 +1,7 @@
 # Computer Vision In The Age Of DeepLearning
 
 ## Requirements
-  opencv-python
+  \t opencv-python \n
   pandas
   sklearn
   matplotlib
