@@ -7,7 +7,7 @@
   matplotlib<br />
   seaborn<br />
 
-## How to Run Your Program
+## How to Run Your Program (Windows)
 1. ```py -m venv env```
 2. ```.\env\Scripts\activate```
 3. ```pip install -r req.txt```
