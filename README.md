@@ -1,6 +1,6 @@
 # <div align="center"><center>Computer Vision In The Age Of DeepLearning</div>
 ## <div align="center">HW1</div>
-### Requirements
+### <div align="center">Requirements</div>
   1. opencv-python<br />
   2. pandas<br />
   3. sklearn<br />
@@ -8,7 +8,7 @@
   6. seaborn<br />
   If you are managing Python packages (libraries) with pip, you can use the configuration file req.txt to install the specified packages with the specified version.<br />
 
-### How to Run Your Program (Windows)
+###<div align="center">How to Run Your Program (Windows)</div>
 
 1. Open the Cmd, type the following command and press the enter button as shown in the below:<br />
 ```pip install virtualenv```<br />
