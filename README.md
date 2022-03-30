@@ -1,11 +1,11 @@
 # Computer Vision In The Age Of DeepLearning
 
 ## Requirements
-  \t opencv-python \n
-  pandas
-  sklearn
-  matplotlib
-  seaborn
+  opencv-python__
+  pandas__
+  sklearn__
+  matplotlib__
+  seaborn___
 
 ## How to Run Your Program
 1. ```py -m venv env```
