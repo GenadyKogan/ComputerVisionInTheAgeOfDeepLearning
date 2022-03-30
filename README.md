@@ -1,4 +1,4 @@
-# <center>Computer Vision In The Age Of DeepLearning</center>
+# <div align="center"><center>Computer Vision In The Age Of DeepLearning</div>
 ## <div align="center">HW1</div>
 ### Requirements
   1. opencv-python<br />
