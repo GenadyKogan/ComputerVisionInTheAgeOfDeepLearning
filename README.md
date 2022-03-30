@@ -1,11 +1,12 @@
 # Computer Vision In The Age Of DeepLearning
 
 ## Requirements
-  opencv-python<br />
-  pandas<br />
-  sklearn<br />
-  matplotlib<br />
-  seaborn<br />
+  1. opencv-python<br />
+  2. pandas<br />
+  3. sklearn<br />
+  5. matplotlib<br />
+  6. seaborn<br />
+  If you are managing Python packages (libraries) with pip, you can use the configuration file req.txt to install the specified packages with the specified version.<br />
 
 ## How to Run Your Program (Windows)
 
