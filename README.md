@@ -23,3 +23,7 @@
 ```python HW2022\HW1\knn_classifier.py .\HW2022\HW1\hhd_dataset```<br />
 6. For leaving the virtual environment type the following given command and press enter button as shown below:
   ```deactivate```
+### 	References
+  1. Rouse, Margaret (September 2005). "What is aspect ratio?". WhatIs?. TechTarget. Retrieved 3 February 2013.
+  2. Rouse, Margaret (September 2002). "Wide aspect ratio display". display. E3displays. Retrieved 18 February 2020.
+  3. Smith, W. D., & Wormald, N. C. (1998, November). Geometric separator theorems and applications. In Proceedings 39th Annual Symposium on Foundations of Computer Science (Cat. No. 98CB36280) (pp. 232-243). IEEE.
