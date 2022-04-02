@@ -20,4 +20,4 @@
 4. A requirement.txt files include all types of the standard packages and libraries that are used in that particular project. To install all requirements type the following command and press the enter:<br />
 ```pip install -r HW2022\HW1\req.txt```<br />
 5. The program will be executed from the command line by next command:<br />
-```python knn_classifier.py .\hhd_dataset```<br />
+```python HW2022\HW1\knn_classifier.py .\HW2022\HW1\hhd_dataset```<br />
