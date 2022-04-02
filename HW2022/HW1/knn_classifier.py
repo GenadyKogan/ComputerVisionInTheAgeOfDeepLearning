@@ -1,4 +1,5 @@
 import cv2, sys, os
+from glob import glob
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
@@ -17,19 +18,17 @@ class KNN_Classifier_HHD():
         """
         # ----------------------- 1 preprocessing
         self.df_data_image = self.__preprocessing(folder)
-        # print(self.df_data_image)
-        # print(self.df_data_image['img_labels'].value_counts())
+       
         # ----------------------- 1 spliting data
         self.all_train, self.all_val, self.all_test = self.__split_dataset()
-        # print(self.all_train.shape, self.all_val.shape, self.all_test.shape)
         self.x_train, self.y_train = self.__dataset_to_npArray(self.all_train)
         self.x_val, self.y_val = self.__dataset_to_npArray(self.all_val)
         self.x_test, self.y_test = self.__dataset_to_npArray(self.all_test)
-        # print( self.x_train.shape,  self.x_val.shape,  self.x_test.shape)
-        # print( self.y_train.shape,  self.y_val.shape,  self.y_test.shape)
+       
         # ----------------------- 2 training
         # Finding best fit k value
         self.k = self.__get_best_fit_k_value_acc_val()
+
         # ----------------------- 3 evaluation knn
         # Applay KNeighbors classifier
         self.pred = self.__KNeighbors_classifier()
@@ -46,7 +45,7 @@ class KNN_Classifier_HHD():
         """
         h, w = img.shape[:2]
         sh, sw = (max(h, w), max(h, w))
-        # print(img.shape[:2])
+      
         # interpolation method
         if h > sh or w > sw:  # shrinking image
             interp = cv2.INTER_AREA
@@ -76,11 +75,6 @@ class KNN_Classifier_HHD():
         scaled_img = cv2.copyMakeBorder(scaled_img, pad_top, pad_bot, pad_left, pad_right,
                                         borderType=cv2.BORDER_CONSTANT, value=padColor)
 
-        # print(scaled_img.shape[:2])
-        # cv2.imwrite('scaled_img.jpg', scaled_img)
-        # cv2.imshow("image", scaled_img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
         return scaled_img
 
     def __preprocessing(self, folder):
@@ -95,33 +89,31 @@ class KNN_Classifier_HHD():
                     'img_labels': Image Label (Classification Class 0-26).
                     'image_name': Name of the image received as input.
         """
-        folder_content = os.listdir(folder)
         # Defining new data frames
-        df_data_image = pd.DataFrame(columns=['img_data', 'img_labels', 'image_name'])
+        df_data_image = pd.DataFrame(columns=['img_data', 'img_labels', 'dir_path'])
+        dir_path = glob(folder + "/**/*.png", recursive=True)
+        for img in dir_path:
 
-        for dataset in folder_content:
-            img_list = os.listdir(folder + '/' + dataset)
-            print('Loaded the images of dataset-' + '{}\n'.format(dataset))
+            # Load image
+            input_img = cv2.imread(img)
 
-            for img in img_list:
-                # Load image
-                input_img = cv2.imread(folder + '/' + dataset + '/' + img)
-                # a- Convert image to grayscale
-                input_img_cvtColor = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
-                # b. Add white padding to the image so that its size is square
-                color = [255, 255, 255]  # white color
-                # color = [0,0,0]  # black color
-                dst = self.__add_white_padding(input_img_cvtColor, color)
-                # c- Resize the image to a uniform size (32,32)
-                input_img_resize = cv2.resize(dst, (32, 32))
+            # a- Convert image to grayscale
+            input_img_cvtColor = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
 
-                # # Append all the data to dataframe
-                df_data_image = df_data_image.append(
-                    {'img_data': input_img_resize, 'img_labels': int(dataset), 'image_name': img},
-                    ignore_index=True)
+            # b. Add white padding to the image so that its size is square
+            color = [255, 255, 255]  # white color
+
+            dst = self.__add_white_padding(input_img_cvtColor, color)
+            
+            # c- Resize the image to a uniform size (32,32)
+            input_img_resize = cv2.resize(dst, (32, 32))
+
+            # # Append all the data to dataframe
+            df_data_image = df_data_image.append(
+                {'img_data': input_img_resize, 'img_labels': int(img.split("\\")[-2]), 'dir_path': img},
+                ignore_index=True)
 
         return df_data_image
-
     # ------------------------------------------------------------------------------ 1 spliting data
     def __split_dataset(self):
         """
@@ -134,17 +126,22 @@ class KNN_Classifier_HHD():
                     'image_name': Name of the image received as input.
         """
         # Defining new data frames for all train, val, test
-        all_train = pd.DataFrame(columns=['img_data', 'img_labels'])
+        all_train = pd.DataFrame()
         all_val, all_test = all_train, all_train
+
         # A loop that runs on all types of labels (0-26) and divides each label to 80% train, 10% val and 10% test
         for label in set(self.df_data_image['img_labels']):
+
             # Take 80% of the data on a particular label to train
             train = self.df_data_image[self.df_data_image['img_labels'] == label].sample(frac=0.8)
+
             # not_train - Contains 20% data that are not train
             not_train = self.df_data_image[self.df_data_image['img_labels'] == label].drop(train.index)
+
             # Of the remaining 20%, half go to val and half to test
             test = not_train.sample(frac=0.5)
             val = not_train.drop(test.index)
+
             # Append all the data to dataframes
             all_train, all_val, all_test = all_train.append(train), all_val.append(val), all_test.append(test)
         print("The division of the data into train, validation and test was successful!")
@@ -159,44 +156,57 @@ class KNN_Classifier_HHD():
         """
         # Convert a dataset to np.array
         img_data = np.array(df['img_data'].values.tolist())
+
         # Size after reshape is (img_data.shape[0], 32*32)
+        # (40000, 32, 32)
         X = img_data.reshape(img_data.shape[0], -1)
         y = np.array(df['img_labels'].values.tolist())
         return X, y
 
     #------------------------------------------------------------------------------ 2 training
-    def __plot_relationship_k_vs_val_acc(self,train_accuracy, val_accuracy):
+    def __plot_relationship_k_vs_val_acc(self,df_results_k):
         """
         A method that creates a diagram of the relationship between k and the accuracy of validation and training set.
-        :param train_accuracy: array that contains accuracy ​​of train set.
-        :param val_accuracy: array that contains accuracy ​​of validation set.
+        :param df_results_k:
+            data frame containing the following columns: k, val_acc, train_acc, error_rate.
         :return: Plotting the relationship between k and the accuracy of validation and training.
         """
+        train_accuracy, val_accuracy = df_results_k['train_acc'].values.tolist(), df_results_k['val_acc'].values.tolist()
         neighbors = np.arange(1, 16, 2)
+
         # Set Main Title
         plt.title('KNN Neighbors')
+
         # Set X-Axis Label
         plt.xlabel('Neighbors\n(#)')
+
         # Set Y-Axis Label
         plt.ylabel('Accuracy\n(%)', rotation=0, labelpad=35)
+
         # Place Testing Accuracy
         plt.plot(neighbors, val_accuracy, label='Val Accuracy')
+
         # Place Training Accuracy
         plt.plot(neighbors, train_accuracy, label='Training Accuracy')
+
         # Append Labels on Testing Accuracy
         for a, b in zip(neighbors, val_accuracy):
             plt.text(a, b, str(round(b, 2)))
+
         # Add Legend
         plt.legend()
+
         # Generate Plot
         plt.show()
 
-    def __plot_error_rate_vs_k(self, error_rate):
+    def __plot_error_rate_vs_k(self, df_results_k):
         """
         A method that creates a chart that shows the error rate values vs k for validation set.
-        :param error_rate: List of error rate values.
+        :param df_results_k:
+            data frame containing the following columns: k, val_acc, train_acc, error_rate.
         :return: Plotting the error rate vs k graph.
         """
+        error_rate = df_results_k['error_rate'].values.tolist()
         plt.figure(figsize=(12, 6))
         plt.plot(range(1,16,2), error_rate, marker="o", markerfacecolor="green",
                  linestyle="dashed", color="red", markersize=15)
@@ -206,19 +216,50 @@ class KNN_Classifier_HHD():
         plt.xticks(range(1, 16,2))
         plt.show()
 
-    def __get_k_with_beat_val_acc(self,val_accuracy):
+    def __get_k_with_beat_val_acc(self,df_results_k):
         """
-        :param val_accuracy: array that contains accuracy ​​of validation set.
+        :param df_results_k:
+            data frame containing the following columns: k, val_acc, train_acc, error_rate.
         :return: k - Value K with the  highest accuracy on the validation set.
         """
+        val_accuracy = df_results_k['val_acc'].values.tolist()
+
         # Max index
         max_index = int(np.argmax(val_accuracy))
+
         # list of k types
         k_index = list(range(1, 16, 2))
+
         # Get the name of the k
         k = k_index[max_index]
         print("Best K value = ", k)
         return k
+
+    def __get_results_for_specific_k(self,k):
+        """
+        A method that performs training of the k-NN classifier on a specific value of k.
+        :param k:  K value for KNN classifier
+        :return: List of results for a specific K value containing a column: k, val_acc, train_acc, error_rate.
+        """
+        # Try KNeighbors with each of 'n' neighbors
+        knn = KNeighborsClassifier(n_neighbors=k, weights='distance', metric='euclidean')
+
+        # Fitting
+        knn.fit(self.x_train, self.y_train)
+
+        # Val Accuracy
+        test_acc = knn.score(self.x_val, self.y_val)
+
+        # Training Accuracy
+        train_acc = knn.score(self.x_train, self.y_train)
+
+        # Prediction of knn classifer
+        predict_i = knn.predict(self.x_val)
+
+        # Error Rate
+        error_rate = np.mean(predict_i != self.y_val)
+        print('Results of value K =', k, ' were obtained!')
+        return [k, test_acc, train_acc, error_rate]
 
     def __get_best_fit_k_value_acc_val(self):
         """
@@ -229,31 +270,25 @@ class KNN_Classifier_HHD():
             - Euclidean distance should be used as the distance function.
         :return: k - Value K with the  highest accuracy on the validation set.
         """
-        # Setup arrays to store train and test accuracies
-        neighbors, error_rate = np.arange(1, 16, 2), []
-        train_accuracy, val_accuracy = np.empty(len(neighbors)), np.empty(len(neighbors))
-        # Enum Loop, accuracy results using range on 'n' values for KNN Classifier
-        for acc, n in enumerate(neighbors):
-            # Try KNeighbors with each of 'n' neighbors
-            knn = KNeighborsClassifier(n_neighbors=n, weights='distance', metric='euclidean')
-            # Fitting
-            knn.fit(self.x_train, self.y_train)
-            # Training Accuracy
-            train_accuracy[acc] = knn.score(self.x_train, self.y_train)
-            # Val Accuracy
-            val_accuracy[acc] = knn.score(self.x_val, self.y_val)
-            predict_i = knn.predict(self.x_val)
-            error_rate.append(np.mean(predict_i != self.y_val))
-        print("error_rate:",error_rate)
-        print("\ntrain_accuracy: ", train_accuracy)
-        print("\nval_accuracy: ", val_accuracy)
+        # Create a data frame with K values ​​in the range (1, 16, 2)
+        df_results_k = pd.DataFrame(range(1, 16, 2), columns=['k'])
+
+        # Accuracy results using range on 'n' values for KNN Classifier
+        df_results_k = df_results_k['k'].apply(lambda r: pd.Series(self.__get_results_for_specific_k(r),
+                                                                             index=['k', 'val_acc', 'train_acc', 'error_rate']))
+        print(df_results_k)
+
         # Plotting the error rate vs k graph
-        self.__plot_error_rate_vs_k(error_rate)
+        self.__plot_error_rate_vs_k(df_results_k)
+
         # Plotting the relationship batween k and the val accuracy
-        self.__plot_relationship_k_vs_val_acc(train_accuracy, val_accuracy)
+        self.__plot_relationship_k_vs_val_acc(df_results_k)
+
         # Get the value K that has the best val accuracy
-        k = self.__get_k_with_beat_val_acc(val_accuracy)
+        k = self.__get_k_with_beat_val_acc(df_results_k)
+
         return k
+
     #-------------------------------------------------------------------------------- 3 evaluation knn
 
     def __KNeighbors_classifier(self):
@@ -264,8 +299,10 @@ class KNN_Classifier_HHD():
         """
         # Create KNN Object
         clf = KNeighborsClassifier(n_neighbors=self.k, weights='distance', metric='euclidean')
+
         # Training the model
         clf.fit(self.x_train, self.y_train)
+
         # Predict testing set
         pred = clf.predict(self.x_test)
         return pred
@@ -293,10 +330,12 @@ class KNN_Classifier_HHD():
         """
         # Now the normalize the diagonal entries
         cm = con.astype('float') / con.sum(axis=1)[:, np.newaxis]
+
         # The diagonal entries are the accuracies of each class
         letter, accuracy = list(set(self.df_data_image['img_labels'])), cm.diagonal()
         accuracy_letter_dict = dict(zip(letter, accuracy))
         with open('results.txt', 'w') as file:
+
             # Write the data
             file.writelines("k = "+ str(self.k)+ '\n\n')
             file.writelines('Letter'+'     '+ 'Accuracy'+ '\n\n')
@@ -323,18 +362,23 @@ class KNN_Classifier_HHD():
         """
         con = confusion_matrix(self.y_test, self.pred)
         self.__plot_confusion_matrix(con)
+
         # Printing precision,recall,accuracy score etc
         print(classification_report(self.y_test, self.pred))
+
         # Writing results into files
         self.__write_to_result_txt(con)
         self.__wrire_cm_to_csv(con)
     #----------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+
     path = sys.argv[1]
+    
     # Check If Path Exists
     if os.path.exists(path):
         print("path exists")
         KNN_Classifier_HHD(path)
     else:
         print("path not exists")
+
