@@ -244,16 +244,16 @@ class KNN_Classifier_HHD():
         # Try KNeighbors with each of 'n' neighbors
         knn = KNeighborsClassifier(n_neighbors=k, weights='distance', metric='euclidean')
 
-        # Fitting
+        # Fit the k-nearest neighbors classifier from the training dataset.
         knn.fit(self.x_train, self.y_train)
-
-        # Val Accuracy
+        
+        # Val - Return the mean accuracy on the given test data and labels.
         test_acc = knn.score(self.x_val, self.y_val)
 
-        # Training Accuracy
+        # Training - Return the mean accuracy on the given test data and labels.
         train_acc = knn.score(self.x_train, self.y_train)
 
-        # Prediction of knn classifer
+        # Predict the class labels for the provided data.
         predict_i = knn.predict(self.x_val)
 
         # Error Rate
@@ -276,8 +276,7 @@ class KNN_Classifier_HHD():
         # Accuracy results using range on 'n' values for KNN Classifier
         df_results_k = df_results_k['k'].apply(lambda r: pd.Series(self.__get_results_for_specific_k(r),
                                                                              index=['k', 'val_acc', 'train_acc', 'error_rate']))
-        print(df_results_k)
-
+      
         # Plotting the error rate vs k graph
         self.__plot_error_rate_vs_k(df_results_k)
 
