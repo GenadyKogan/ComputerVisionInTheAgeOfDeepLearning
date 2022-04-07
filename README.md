@@ -2,17 +2,17 @@
 ## HW1
 ### Description
   In this project we use the Neighbor Nearest-k algorithm to classify images of letters from the 0_HHD database, which consists of handwritten Hebrew letters.<br />
-  The program will execute the following steps:
-•	The program will read the data into a dict variable structure, each “key” will represent the letter and the “value” will contain a “list” of images of that specific letter.
-•	Pre-processing step will “grayscale”  each image, we will pad each image with white borders and make it squared, after that we will resize the image to 32x32
-•	We will split the data randomly but equally distributed to three categories: Train, Validation and Test. With the sizes of 80% : 10% : 10% accordingly.
-•	We will use sklearn library for the KNN model and use it with “Euclidean distance” metric. The model will train on the “train” set, afterwards we will try to evaluate the model with the “validation” set and find the best K ( in range 1 to 15 with steps of 2) that provides the highest accuracy.
-•	We will save the  best model, accuracy and the processed data into a “pickle” file to shorten the progress in case we would like  to run the program again.
-•	The best saved KNN model could be loaded, now we can fit the “test” set and report the results.
-•	We will generate a “result.txt” file that will contain: 
-o	Best K value
-o	The accuracy of each letter.
-•	We will also provide a confusion matrix, that will be saved on scv file.
+  The program will execute the following steps:<br />
+•	The program will read the data into a dict variable structure, each “key” will represent the letter and the “value” will contain a “list” of images of that specific letter.<br />
+•	Pre-processing step will “grayscale”  each image, we will pad each image with white borders and make it squared, after that we will resize the image to 32x32.<br />
+•	We will split the data randomly but equally distributed to three categories: Train, Validation and Test. With the sizes of 80% : 10% : 10% accordingly.<br />
+•	We will use sklearn library for the KNN model and use it with “Euclidean distance” metric. The model will train on the “train” set, afterwards we will try to evaluate the model with the “validation” set and find the best K ( in range 1 to 15 with steps of 2) that provides the highest accuracy.<br />
+•	We will save the  best model, accuracy and the processed data into a “pickle” file to shorten the progress in case we would like  to run the program again.<br />
+•	The best saved KNN model could be loaded, now we can fit the “test” set and report the results.<br />
+•	We will generate a “result.txt” file that will contain: <br />
+o	Best K value<br />
+o	The accuracy of each letter.<br />
+•	We will also provide a confusion matrix, that will be saved on scv file.<br />
 
 ### Requirements
   1. opencv-python<br />
