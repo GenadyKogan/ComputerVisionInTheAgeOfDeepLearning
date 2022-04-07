@@ -1,7 +1,7 @@
 # <div align="center"><center>Computer Vision In The Age Of DeepLearning</div>
 ## HW1
 ### Description
-  <\t>In this project we use the Neighbor Nearest-k algorithm to classify images of letters from the 0_HHD database, which consists of handwritten Hebrew letters.<br />
+  In this project we use the Neighbor Nearest-k algorithm to classify images of letters from the 0_HHD database, which consists of handwritten Hebrew letters.<br />
 ### Requirements
   1. opencv-python<br />
   2. pandas<br />
