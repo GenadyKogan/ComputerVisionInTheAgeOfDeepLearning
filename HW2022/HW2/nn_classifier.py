@@ -193,7 +193,7 @@ class NN_Classifier_HHD():
         x = x.reshape(x.shape[0], -1)
 
         # Convert data to float and normalize by pixels
-        x = (x.astype(np.float16))/255.
+        x = (x.astype(np.float16))/255
 
         #  Transform labels to one hot encoding
         y = tf.keras.utils.to_categorical(y, num_classes=len(set(df['img_labels'])))
@@ -248,7 +248,7 @@ class NN_Classifier_HHD():
         model.add(Dense(27, activation='softmax')) 
 
         # config the model with losses and metrics with model.compile()
-        model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer="rmsprop", loss='categorical_crossentropy', metrics=['accuracy'])
         return model
 
     def __get_model_with_regularization(self, type_reg, lambda_value):
@@ -274,7 +274,7 @@ class NN_Classifier_HHD():
         model.add(Dense(27, activation='softmax')) 
 
         # config the model with losses and metrics with model.compile()
-        model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer="rmsprop", loss='categorical_crossentropy', metrics=['accuracy'])
         return model
 
     def __get_model_with_dropout(self):
@@ -303,7 +303,7 @@ class NN_Classifier_HHD():
         model.add(Dense(27, activation='softmax'))
 
         # config the model with losses and metrics with model.compile()
-        model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer="rmsprop", loss='categorical_crossentropy', metrics=['accuracy'])
         return model
 
     def __get_model_with_dropout_and_reg(self, lambda_value):
@@ -331,7 +331,7 @@ class NN_Classifier_HHD():
 
         # Output layer
         model.add(Dense(27, activation='softmax')) 
-        model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer="rmsprop", loss='categorical_crossentropy', metrics=['accuracy'])
         return model
 
     def __get_configuration_type(self, choice):
