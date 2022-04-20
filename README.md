@@ -46,7 +46,9 @@ o	The accuracy of each letter.<br /><br />
 ## HW2
 In this project, we use the Feedforward neural network to classify images of letters from the 0_HHD database, which consists of handwritten Hebrew letters.<br />
 ### Model configuration
-Dropout:0.5 Regularizer: L2=0.01. Model Accuracy: 0.77<br />
+Dropout:0.5 Regularizer: L2=0.01.
+### Model Accuracy
+0.77<br />
 ### Requirements
   1. opencv-python<br />
   2. pandas<br />
