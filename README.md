@@ -18,8 +18,8 @@ o	The accuracy of each letter.<br /><br />
   1. opencv-python<br />
   2. pandas<br />
   3. sklearn<br />
-  5. matplotlib<br />
-  6. seaborn<br />
+  4. matplotlib<br />
+  5. seaborn<br />
   If you are managing Python packages (libraries) with pip, you can use the configuration file req.txt to install the specified packages with the specified version.<br />
 
 ### How to Run Your Program (Windows)
@@ -42,3 +42,20 @@ o	The accuracy of each letter.<br /><br />
   2. Rouse, Margaret (September 2002). "Wide aspect ratio display". display. E3displays. Retrieved 18 February 2020.
   3. Smith, W. D., & Wormald, N. C. (1998, November). Geometric separator theorems and applications. In Proceedings 39th Annual Symposium on Foundations of Computer Science (Cat. No. 98CB36280) (pp. 232-243). IEEE.
   4. Hastie T., Tibshirani R., Friedman J. The Elements of Statistical Learning. — Springer, 2001.
+  
+## HW2
+In this project, we use the Feedforward neural network to classify images of letters from the 0_HHD database, which consists of handwritten Hebrew letters.<br />
+### Requirements
+  1. opencv-python<br />
+  2. pandas<br />
+  3. sklearn<br />
+  4. matplotlib<br />
+  5. seaborn<br />
+  6. tensorflow <br />
+### How to Run Your Program (Windows) 
+1. ```pip install virtualenv```<br />
+2. ```py -m venv env```<br />
+3. ```.\env\Scripts\activate```<br />
+4. ```pip install -r HW2022\HW2\req.txt```<br />
+5. ```python HW2022\HW2\knn_classifier.py .\HW2022\HW2\hhd_dataset```<br />
+6. ```deactivate```
