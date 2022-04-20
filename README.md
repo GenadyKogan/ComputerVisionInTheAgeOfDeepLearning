@@ -57,5 +57,5 @@ In this project, we use the Feedforward neural network to classify images of let
 2. ```py -m venv env```<br />
 3. ```.\env\Scripts\activate```<br />
 4. ```pip install -r HW2022\HW2\req.txt```<br />
-5. ```python HW2022\HW2\knn_classifier.py .\HW2022\HW2\hhd_dataset```<br />
+5. ```python HW2022\HW2\nn_classifier.py .\HW2022\HW2\hhd_dataset```<br />
 6. ```deactivate```
