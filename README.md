@@ -32,9 +32,9 @@ o	The accuracy of each letter.<br /><br />
 3. To use this newly created virtual environment, we just need to activate it. To activate this isolated environment, type the following given command and press enter button as shown below:<br />
 ```.\env\Scripts\activate```<br />
 4. A requirement.txt files include all types of the standard packages and libraries that are used in that particular project. To install all requirements type the following command and press the enter:<br />
-```pip install -r HW2022\HW1\req.txt```<br />
+```pip install -r HW2022\HW1\req1.txt```<br />
 5. The program will be executed from the command line by next command:<br />
-```python HW2022\HW1\knn_classifier.py .\HW2022\HW1\hhd_dataset```<br />
+```python HW2022\HW1\knn_classifier.py .\HW2022\hhd_dataset```<br />
 6. For leaving the virtual environment type the following given command and press enter button as shown below:
   ```deactivate```
 ### 	References
@@ -60,6 +60,6 @@ Dropout: 0.5, Regularization L2: 0.01.
 1. ```pip install virtualenv```<br />
 2. ```py -m venv env```<br />
 3. ```.\env\Scripts\activate```<br />
-4. ```pip install -r HW2022\HW2\req.txt```<br />
-5. ```python HW2022\HW2\nn_classifier.py .\HW2022\HW2\hhd_dataset```<br />
+4. ```pip install -r HW2022\HW2\req2.txt```<br />
+5. ```python HW2022\HW2\nn_classifier.py .\HW2022\hhd_dataset```<br />
 6. ```deactivate```
