@@ -48,7 +48,7 @@ class Khatt():
         
         # Load images data from a folder named "KHATT" to dataframe
         df = pd.DataFrame(
-            {'image_path': glob('KHATT/*/' + name_split + '/*', recursive=True)})
+            {'image_path': glob('FinalProject/KHATT/*/' + name_split + '/*', recursive=True)})
         df['group_name'] = df['image_path'].apply(
             lambda x: x.split('\\')[1]).astype(int)
         return df
