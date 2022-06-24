@@ -38,10 +38,10 @@ class Khatt():
 
         # os.mkdir('data')
         # index 0 to CNN, 1 to VGG16, 2 to ResNet50, 3 to Xception, 4 to EfficientNetB0 model
-        model = self.run_model_type(choice)
+        #model = self.run_model_type(choice)
 
         # ----------------------- Results
-        # self.write_all_the_results_to_txt()
+        self.write_all_the_results_to_txt()
 
     # ----------------------- Experimental settings
     def load_dataSet_to_df(self, name_split):
@@ -353,7 +353,7 @@ class Khatt():
               binary_predictions, target_names=self.age_class))
         # Overall accuracy
         acc_score = accuracy_score(self.y_test, binary_predictions)
-        self.__plot_confusion_matrix(con, name_model_file)
+        self.plot_confusion_matrix(con, name_model_file)
         return [name_model_file, con, acc_score]
 
     def write_all_the_results_to_txt(self):
@@ -369,7 +369,7 @@ class Khatt():
         print(df_result_model)
 
         # Writing results into files
-        self.__write_results_to_file(df_result_model)
+        self.write_results_to_file(df_result_model)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,189 @@
+Name of the model: data/cnn.h5
+
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 32, 32, 32)        896       
+                                                                 
+ conv2d_1 (Conv2D)           (None, 32, 32, 32)        9248      
+                                                                 
+ max_pooling2d (MaxPooling2D  (None, 16, 16, 32)       0         
+ )                                                               
+                                                                 
+ dropout (Dropout)           (None, 16, 16, 32)        0         
+                                                                 
+ conv2d_2 (Conv2D)           (None, 16, 16, 64)        18496     
+                                                                 
+ conv2d_3 (Conv2D)           (None, 16, 16, 64)        36928     
+                                                                 
+ max_pooling2d_1 (MaxPooling  (None, 8, 8, 64)         0         
+ 2D)                                                             
+                                                                 
+ dropout_1 (Dropout)         (None, 8, 8, 64)          0         
+                                                                 
+ conv2d_4 (Conv2D)           (None, 8, 8, 128)         73856     
+                                                                 
+ conv2d_5 (Conv2D)           (None, 8, 8, 128)         147584    
+                                                                 
+ max_pooling2d_2 (MaxPooling  (None, 4, 4, 128)        0         
+ 2D)                                                             
+                                                                 
+ dropout_2 (Dropout)         (None, 4, 4, 128)         0         
+                                                                 
+ flatten (Flatten)           (None, 2048)              0         
+                                                                 
+ dense (Dense)               (None, 512)               1049088   
+                                                                 
+ dropout_3 (Dropout)         (None, 512)               0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 513       
+                                                                 
+=================================================================
+Total params: 1,336,609
+Trainable params: 1,336,609
+Non-trainable params: 0
+_________________________________________________________________
+Overall accuracy of the model: 0.49444444444444446
+
+The accuracy for each group: 
+
+Letter     Accuracy
+
+16-25     0.17222222222222222
+
+26-50     0.8166666666666667
+
+Confusion matrix of model: 
+
+[[ 31 149]
+ [ 33 147]]
+
+Name of the model: data/vgg16_model.h5
+
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ vgg16 (Functional)          (None, 2, 2, 512)         14714688  
+                                                                 
+ flatten (Flatten)           (None, 2048)              0         
+                                                                 
+ dense (Dense)               (None, 1)                 2049      
+                                                                 
+=================================================================
+Total params: 14,716,737
+Trainable params: 14,716,737
+Non-trainable params: 0
+_________________________________________________________________
+Overall accuracy of the model: 0.5888888888888889
+
+The accuracy for each group: 
+
+Letter     Accuracy
+
+16-25     0.5777777777777777
+
+26-50     0.6
+
+Confusion matrix of model: 
+
+[[104  76]
+ [ 72 108]]
+
+Name of the model: data/resNet50.h5
+
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ resnet50 (Functional)       (None, 3, 3, 2048)        23587712  
+                                                                 
+ flatten (Flatten)           (None, 18432)             0         
+                                                                 
+ dense (Dense)               (None, 1)                 18433     
+                                                                 
+=================================================================
+Total params: 23,606,145
+Trainable params: 23,553,025
+Non-trainable params: 53,120
+_________________________________________________________________
+Overall accuracy of the model: 0.5166666666666667
+
+The accuracy for each group: 
+
+Letter     Accuracy
+
+16-25     0.5611111111111111
+
+26-50     0.4722222222222222
+
+Confusion matrix of model: 
+
+[[101  79]
+ [ 95  85]]
+
+Name of the model: data/Xception.h5
+
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ xception (Functional)       (None, 3, 3, 2048)        20861480  
+                                                                 
+ flatten (Flatten)           (None, 18432)             0         
+                                                                 
+ dense (Dense)               (None, 1)                 18433     
+                                                                 
+=================================================================
+Total params: 20,879,913
+Trainable params: 20,825,385
+Non-trainable params: 54,528
+_________________________________________________________________
+Overall accuracy of the model: 0.5444444444444444
+
+The accuracy for each group: 
+
+Letter     Accuracy
+
+16-25     0.4888888888888889
+
+26-50     0.6
+
+Confusion matrix of model: 
+
+[[ 88  92]
+ [ 72 108]]
+
+Name of the model: data/EfficientNetB0.h5
+
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ efficientnetb0 (Functional)  (None, 3, 3, 1280)       4049571   
+                                                                 
+ flatten (Flatten)           (None, 11520)             0         
+                                                                 
+ dense (Dense)               (None, 1)                 11521     
+                                                                 
+=================================================================
+Total params: 4,061,092
+Trainable params: 4,019,069
+Non-trainable params: 42,023
+_________________________________________________________________
+Overall accuracy of the model: 0.5
+
+The accuracy for each group: 
+
+Letter     Accuracy
+
+16-25     1.0
+
+26-50     0.0
+
+Confusion matrix of model: 
+
+[[180   0]
+ [180   0]]
+
