@@ -34,9 +34,9 @@ class Khatt():
         self.model_dict = {'data/cnn.h5': 32, "data/vgg16_model.h5": 71, "data/resNet50.h5": 71,
                            "data/Xception.h5": 71, "data/EfficientNetB0.h5": 71}
         self.age_class = ['16-25', '26-50']
-        choice = 4
+        choice = 0
 
-        # os.mkdir('data')
+        #os.mkdir('data')
         # index 0 to CNN, 1 to VGG16, 2 to ResNet50, 3 to Xception, 4 to EfficientNetB0 model
         #model = self.run_model_type(choice)
 
@@ -48,7 +48,7 @@ class Khatt():
         
         # Load images data from a folder named "KHATT" to dataframe
         df = pd.DataFrame(
-            {'image_path': glob('FinalProject/KHATT/*/' + name_split + '/*', recursive=True)})
+            {'image_path': glob('KHATT/*/' + name_split + '/*', recursive=True)})
         df['group_name'] = df['image_path'].apply(
             lambda x: x.split('\\')[1]).astype(int)
         return df
@@ -219,18 +219,18 @@ class Khatt():
             choice)
         if choice == 0:
             # ------------ CNN model
-            model = self.__get_cnn_model(size)
+            model = self.get_cnn_model(size)
             history = model.fit(self.x_train, self.y_train, validation_data=(
                 self.x_test, self.y_test), epochs=50, batch_size=256)
             # Save model
-            self.__save_model(
+            self.save_model(
                 history, model, 'data/history_cnn', name_model_file)
             # Load model
-            history, model = self.__load_models(
+            history, model = self.load_models(
                 'data/history_cnn', name_model_file)
-            self.__plot_loss_and_accurecy_model(
+            self.plot_loss_and_accurecy_model(
                 history, 'accuracy', 'Accuracy_cnn')
-            self.__plot_loss_and_accurecy_model(history, 'loss', 'Loss_cnn')
+            self.plot_loss_and_accurecy_model(history, 'loss', 'Loss_cnn')
         elif choice > 0 and choice < 5:
             # List that cointains all name of transfer learning
             transfer_learning_type_list = [
@@ -272,12 +272,15 @@ class Khatt():
         :param model_name: Name of the model
         :return: Plotting of Confusion matrix.
         """
-        plt.figure(figsize=(2, 2))
-        sns.heatmap(con, annot=True, xticklabels=self.age_class,
-                    yticklabels=self.age_class, cbar=True)
-        plt.title(model_name)
-        plt.xlabel('Predicted Label')
-        plt.ylabel('True Label')
+
+        print("asdaddasddasda")
+        group_counts = ["{0:0.0f}".format(value) for value in con.flatten()]
+        group_counts = np.asarray(group_counts).reshape(2, 2)
+        ax = sns.heatmap(con, annot=group_counts, fmt='',xticklabels=self.age_class, yticklabels=self.age_class, cmap='Blues')
+        ax.set_title(model_name);
+        ax.set_xlabel('Predicted Label')
+        ax.set_ylabel('True Label');
+        ## Display the visualization of the Confusion Matrix.
         plt.show()
 
     def write_results_to_file(self, df):
