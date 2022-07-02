@@ -27,7 +27,7 @@ class Khatt():
         self.df_train = self.load_dataSet_to_df('train')
 
         # ----------------------- Experiment 1 and 2
-        # data/cnn.h5' name of save cnn model : 32 number input shape ->(32, 32)
+        # data/cnn.h5' name of save cnn model : 400 number input shape ->(400, 400)
         self.model_dict={'data/cnn.h5':400, "data/vgg16_model.h5":400, "data/resNet50.h5":400,
                          "data/Xception.h5":400, "data/EfficientNetB0.h5":400}
         self.age_class = ['16-25', '26-50']
@@ -168,6 +168,7 @@ class Khatt():
         return model
 
     def run_transfer_learning(self, preTrained_conv, name_save):
+
         # ------------------------ b) Freeze the required layers:
         # Freeze all the layers
         for layer in preTrained_conv.layers[:]:
@@ -197,7 +198,7 @@ class Khatt():
         # use the train feature vectors
         model.fit(self.x_train, self.y_train, validation_data=(self.x_test, self.y_test), epochs=20, batch_size=150 )
 
-        # ---------------------- e) UnFreeze all the layers
+        # ------------------ e) UnFreeze all the layers
         for layer in preTrained_conv.layers[:]:
             layer.trainable = True
 
@@ -208,7 +209,7 @@ class Khatt():
         # ------------------ e) train the model for additional 20 epochs
         model.fit(self.x_train, self.y_train, validation_data=(self.x_test, self.y_test), epochs=20, batch_size=150)
 
-        # save model
+        # ------------------ f) save model
         model.save(name_save)
         return model
 
@@ -385,7 +386,7 @@ class Khatt():
 
         # Convert a list to a data frame with model names
         df_result_model = pd.DataFrame({'name_model_file': name_model_file})
-        
+
         # For each model name return the results: name_model_file, confusion_matrix , acc_score
         df_result_model = df_result_model['name_model_file'].apply(lambda r: pd.Series(self.model_evaluation_to_file(r),
                                                                              index=['name_model_file', 'confusion_matrix', 'acc_score']))
